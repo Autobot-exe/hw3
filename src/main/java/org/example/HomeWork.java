@@ -1,6 +1,7 @@
 package org.example;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.HashSet;
 
 
 public class HomeWork {
@@ -24,8 +25,28 @@ public class HomeWork {
      * Сигнатуру метода не меняем
      */
     public String findMaxSubstring(String str) {
-        //TODO реализовать метод
-        return null;
+        int maxLength = 0;
+        int start = 0;
+        String maxSubstring = "";
+
+        HashMap<Character, Integer> charIndexMap = new HashMap<>();
+
+        for (int end = 0; end < str.length(); end++) {
+            char currentChar = str.charAt(end);
+
+            if (charIndexMap.containsKey(currentChar) && charIndexMap.get(currentChar) >= start) {
+                start = charIndexMap.get(currentChar) + 1;
+            }
+
+            charIndexMap.put(currentChar, end);
+
+            if (end - start + 1 > maxLength) {
+                maxLength = end - start + 1;
+                maxSubstring = str.substring(start, end + 1);
+            }
+        }
+
+        return maxSubstring;
     }
 
 
@@ -39,8 +60,16 @@ public class HomeWork {
      * Given a string, detect whether or not it is a pangram. Return True if it is, False if not. Ignore numbers and punctuation.
      * @see <a href="https://www.codewars.com/kata/545cedaa9943f7fe7b000048">https://www.codewars.com/kata/545cedaa9943f7fe7b000048</a>
      */
-    public boolean check(String sentence){
-        return false;
+    public boolean check(String sentence) {
+        HashSet<Character> letters = new HashSet<>();
+
+        for (char c : sentence.toLowerCase().toCharArray()) {
+            if (c >= 'a' && c <= 'z') {
+                letters.add(c);
+            }
+        }
+
+        return letters.size() == 26;
     }
 
 }
